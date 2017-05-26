@@ -19,7 +19,8 @@ class Deck:
                 result.append(self.cards.pop().name())
         return result
 
-    def reset(self):
+    # this is a bit hacky at the moment, will clean up later
+    def create(self):
 
         card_conv = {
             'standard' : StandardCard,
