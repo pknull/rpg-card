@@ -1,12 +1,10 @@
 from random import shuffle
 
-from card_picker.Card import *
-
 class Deck:
-    def __init__(self, card_name):
+    def __init__(self, card_system):
 
         self.cards = []
-        self.card_name = card_name
+        self.card_system = card_system
 
     def shuffle(self):
 
@@ -22,21 +20,13 @@ class Deck:
     # this is a bit hacky at the moment, will clean up later
     def create(self):
 
-        card_conv = {
-            'standard' : StandardCard,
-            'shadow' : ShadowCard,
-            'tarot' : TarotCard
-        }
-
-        card_system = card_conv[self.card_name]
-
         for card in self.cards:
             self.cards.pop()
 
-        for number in range(0, len(card_system.MAJOR_NUMBERS)):
-            self.cards.append(card_system(0, number))
+        for number in range(0, len(self.card_system.MAJOR_NUMBERS)):
+            self.cards.append(self.card_system(0, number))
 
-        for suit in range(1, len(card_system.SUITS)):
-            for number in range(0, len(card_system.MINOR_NUMBERS)):
-                self.cards.append(card_system(suit, number))
+        for suit in range(1, len(self.card_system.SUITS)):
+            for number in range(0, len(self.card_system.MINOR_NUMBERS)):
+                self.cards.append(self.card_system(suit, number))
 

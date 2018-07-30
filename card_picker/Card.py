@@ -18,16 +18,16 @@ class TarotCard:
     def stringForSuit(self):
 
         if self.suit > 0:
-            return ' of ' + TarotCard.SUITS[self.suit]
+            return ' of ' + self.SUITS[self.suit]
         else:
             return ''
 
     def stringForNumber(self):
 
         if self.suit > 0:
-            return TarotCard.MINOR_NUMBERS[self.number]
+            return self.MINOR_NUMBERS[self.number]
         else:
-            return TarotCard.MAJOR_NUMBERS[self.number]
+            return self.MAJOR_NUMBERS[self.number]
 
     def name(self):
 
@@ -55,16 +55,16 @@ class ShadowCard:
     def stringForSuit(self):
 
         if self.suit > 0:
-            return ' of ' + ShadowCard.SUITS[self.suit]
+            return ' of ' + self.SUITS[self.suit]
         else:
             return ''
 
     def stringForNumber(self):
 
         if self.suit > 0:
-            return ShadowCard.MINOR_NUMBERS[self.number]
+            return self.MINOR_NUMBERS[self.number]
         else:
-            return ShadowCard.MAJOR_NUMBERS[self.number]
+            return self.MAJOR_NUMBERS[self.number]
 
     def name(self):
 
@@ -74,9 +74,10 @@ class ShadowCard:
 class StandardCard:
     SUITS = ['', 'Hearts', 'Spades', 'Diamonds', 'Clubs']
 
-    MINOR_NUMBERS = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King']
+    MINOR_NUMBERS = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+                     'Jack', 'Queen', 'King']
 
-    MAJOR_NUMBERS = ['Joker','Joker']
+    MAJOR_NUMBERS = ['Joker', 'Joker']
 
     def __init__(self, newSuit, newNumber):
         self.suit = newSuit
@@ -100,3 +101,32 @@ class StandardCard:
 
         return self.stringForNumber() + self.stringForSuit()
 
+class UnoCard:
+
+    SUITS = ['', 'Red', 'Green', 'Blue', 'Yellow']
+
+    MINOR_NUMBERS = ['Zero', 'Skip', 'Draw Two', 'Reverse',
+                     'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+                     'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
+
+    MAJOR_NUMBERS = ['Wild', 'Wild', 'Wild', 'Wild',
+                     'Wild Draw Four', 'Wild Draw Four', 'Wild Draw Four', 'Wild Draw Four']
+
+    def __init__(self, newSuit, newNumber):
+        self.suit = newSuit
+        self.number = newNumber
+
+    def stringForSuit(self):
+        if self.suit > 0:
+            return self.SUITS[self.suit] + ' '
+        else:
+            return ''
+
+    def stringForNumber(self):
+        if self.suit > 0:
+            return self.MINOR_NUMBERS[self.number]
+        else:
+            return self.MAJOR_NUMBERS[self.number]
+
+    def name(self):
+        return self.stringForSuit() + self.stringForNumber()
