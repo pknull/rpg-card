@@ -1,132 +1,187 @@
-class TarotCard:
-    SUITS = ['', 'Swords', 'Staves', 'Pentacles', 'Cups']
+class BaseCard:
+    """Base class used to define card systems."""
 
-    MINOR_NUMBERS = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six',
-                     'Seven', 'Eight', 'Nine', 'Ten', 'Page', 'Knight', 'Queen', 'King']
+    SUITS = []
+    MINOR_NUMBERS = []
+    MAJOR_NUMBERS = []
 
-    MAJOR_NUMBERS = ['The Fool', 'The Magician', 'The High Priestess',
-                     'The Empress', 'The Emperor', 'The Heirophant', 'The Lovers',
-                     'The Chariot', 'Justice', 'The Hermit', 'Wheel of Fortune',
-                     'Strength', 'The Hanged Man', 'Temperance', 'The Devil',
-                     'The Tower', 'The Star', 'The Moon', 'The Sun', 'Judgment', 'The World']
+    def __init__(self, suit, number):
+        self.suit = suit
+        self.number = number
 
-    def __init__(self, newSuit, newNumber):
+    def string_for_suit(self):
+        return f" of {self.SUITS[self.suit]}" if self.suit > 0 else ""
 
-        self.suit = newSuit
-        self.number = newNumber
-
-    def stringForSuit(self):
-
-        if self.suit > 0:
-            return ' of ' + self.SUITS[self.suit]
-        else:
-            return ''
-
-    def stringForNumber(self):
-
-        if self.suit > 0:
-            return self.MINOR_NUMBERS[self.number]
-        else:
-            return self.MAJOR_NUMBERS[self.number]
+    def string_for_number(self):
+        return (
+            self.MINOR_NUMBERS[self.number]
+            if self.suit > 0
+            else self.MAJOR_NUMBERS[self.number]
+        )
 
     def name(self):
+        return self.string_for_number() + self.string_for_suit()
 
-        return self.stringForNumber() + self.stringForSuit()
-
-
-class ShadowCard:
-    SUITS = ['', 'Blades', 'Batons', 'Coins', 'Cups']
-
-    MINOR_NUMBERS = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six',
-                     'Seven', 'Eight', 'Nine', 'Ten', 'Page', 'Knight', 'Queen', 'King']
-
-    MAJOR_NUMBERS = ['The Bastard', 'The Matrix', 'The High Priestess',
-                     'Aes Sidhe Banrigh', 'The Chief Executive', 'The Higher Power',
-                     'The Avatars', 'The Ride', 'Discipline', 'The Hermit',
-                     'The Wheel of Fortune', 'The Vigilante', 'The Hanged Man', '...404...',
-                     'Threshold', 'The Dragon', 'The Tower', 'The Comet', 'The Shadows',
-                     'The Eclipse', 'Karma', 'The Awakened World']
-
-    def __init__(self, newSuit, newNumber):
-
-        self.suit = newSuit
-        self.number = newNumber
-
+    # Backwards compatibility helpers
     def stringForSuit(self):
-
-        if self.suit > 0:
-            return ' of ' + self.SUITS[self.suit]
-        else:
-            return ''
+        return self.string_for_suit()
 
     def stringForNumber(self):
-
-        if self.suit > 0:
-            return self.MINOR_NUMBERS[self.number]
-        else:
-            return self.MAJOR_NUMBERS[self.number]
-
-    def name(self):
-
-        return self.stringForNumber() + self.stringForSuit()
+        return self.string_for_number()
 
 
-class StandardCard:
-    SUITS = ['', 'Hearts', 'Spades', 'Diamonds', 'Clubs']
+class TarotCard(BaseCard):
+    SUITS = ["", "Swords", "Staves", "Pentacles", "Cups"]
 
-    MINOR_NUMBERS = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
-                     'Jack', 'Queen', 'King']
+    MINOR_NUMBERS = [
+        "Ace",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Page",
+        "Knight",
+        "Queen",
+        "King",
+    ]
 
-    MAJOR_NUMBERS = ['Joker', 'Joker']
+    MAJOR_NUMBERS = [
+        "The Fool",
+        "The Magician",
+        "The High Priestess",
+        "The Empress",
+        "The Emperor",
+        "The Hierophant",
+        "The Lovers",
+        "The Chariot",
+        "Justice",
+        "The Hermit",
+        "Wheel of Fortune",
+        "Strength",
+        "The Hanged Man",
+        "Temperance",
+        "The Devil",
+        "The Tower",
+        "The Star",
+        "The Moon",
+        "The Sun",
+        "Judgment",
+        "The World",
+    ]
 
-    def __init__(self, newSuit, newNumber):
-        self.suit = newSuit
-        self.number = newNumber
 
-    def stringForSuit(self):
+class ShadowCard(BaseCard):
+    SUITS = ["", "Blades", "Batons", "Coins", "Cups"]
 
-        if self.suit > 0:
-            return ' of ' + self.SUITS[self.suit]
-        else:
-            return ''
+    MINOR_NUMBERS = [
+        "Ace",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Page",
+        "Knight",
+        "Queen",
+        "King",
+    ]
 
-    def stringForNumber(self):
+    MAJOR_NUMBERS = [
+        "The Bastard",
+        "The Matrix",
+        "The High Priestess",
+        "Aes Sidhe Banrigh",
+        "The Chief Executive",
+        "The Higher Power",
+        "The Avatars",
+        "The Ride",
+        "Discipline",
+        "The Hermit",
+        "The Wheel of Fortune",
+        "The Vigilante",
+        "The Hanged Man",
+        "...404...",
+        "Threshold",
+        "The Dragon",
+        "The Tower",
+        "The Comet",
+        "The Shadows",
+        "The Eclipse",
+        "Karma",
+        "The Awakened World",
+    ]
 
-        if self.suit > 0:
-            return self.MINOR_NUMBERS[self.number]
-        else:
-            return self.MAJOR_NUMBERS[self.number]
 
-    def name(self):
+class StandardCard(BaseCard):
+    SUITS = ["", "Hearts", "Spades", "Diamonds", "Clubs"]
 
-        return self.stringForNumber() + self.stringForSuit()
+    MINOR_NUMBERS = [
+        "Ace",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Jack",
+        "Queen",
+        "King",
+    ]
 
-class UnoCard:
+    MAJOR_NUMBERS = ["Joker", "Joker"]
 
-    SUITS = ['', 'Red', 'Green', 'Blue', 'Yellow']
 
-    MINOR_NUMBERS = ['Zero', 'Skip', 'Draw Two', 'Reverse',
-                     'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
-                     'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
+class UnoCard(BaseCard):
 
-    MAJOR_NUMBERS = ['Wild', 'Wild', 'Wild', 'Wild',
-                     'Wild Draw Four', 'Wild Draw Four', 'Wild Draw Four', 'Wild Draw Four']
+    SUITS = ["", "Red", "Green", "Blue", "Yellow"]
 
-    def __init__(self, newSuit, newNumber):
-        self.suit = newSuit
-        self.number = newNumber
+    MINOR_NUMBERS = [
+        "Zero",
+        "Skip",
+        "Draw Two",
+        "Reverse",
+        "One",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "One",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+    ]
 
-    def stringForSuit(self):
-        if self.suit > 0:
-            return self.SUITS[self.suit] + ' '
-        else:
-            return ''
+    MAJOR_NUMBERS = [
+        "Wild",
+        "Wild",
+        "Wild",
+        "Wild",
+        "Wild Draw Four",
+        "Wild Draw Four",
+        "Wild Draw Four",
+        "Wild Draw Four",
+    ]
 
-    def stringForNumber(self):
-        if self.suit > 0:
-            return self.MINOR_NUMBERS[self.number]
-        else:
-            return self.MAJOR_NUMBERS[self.number]
-
-    def name(self):
-        return self.stringForSuit() + self.stringForNumber()
+    def string_for_suit(self):
+        return f"{self.SUITS[self.suit]} " if self.suit > 0 else ""
