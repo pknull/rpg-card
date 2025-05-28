@@ -1,32 +1,40 @@
+"""Container class for manipulating and dealing card objects."""
+
 from random import shuffle
 
-class Deck:
-    def __init__(self, card_system):
 
-        self.cards = []
+class Deck:
+    """Represents a deck of cards built from a specific card system."""
+
+    def __init__(self, card_system):
         self.card_system = card_system
+        self.cards = []
+
+    def __len__(self):
+        return len(self.cards)
 
     def shuffle(self):
+        """Shuffle the deck in place."""
 
         shuffle(self.cards)
 
     def deal(self, ncards=1):
-        result = []
-        for x in range(0, ncards):
-            if len(self.cards):
-                result.append(self.cards.pop().name())
-        return result
+        """Deal ``ncards`` cards, returning their names."""
 
-    # this is a bit hacky at the moment, will clean up later
+        dealt = []
+        for _ in range(ncards):
+            if self.cards:
+                dealt.append(self.cards.pop().name())
+        return dealt
+
     def create(self):
+        """Populate ``self.cards`` with a full set from ``card_system``."""
 
-        for card in self.cards:
-            self.cards.pop()
+        self.cards.clear()
 
-        for number in range(0, len(self.card_system.MAJOR_NUMBERS)):
+        for number in range(len(self.card_system.MAJOR_NUMBERS)):
             self.cards.append(self.card_system(0, number))
 
         for suit in range(1, len(self.card_system.SUITS)):
-            for number in range(0, len(self.card_system.MINOR_NUMBERS)):
+            for number in range(len(self.card_system.MINOR_NUMBERS)):
                 self.cards.append(self.card_system(suit, number))
-
