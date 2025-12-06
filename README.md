@@ -2,6 +2,8 @@
 
 A small library for creating and dealing cards for various RPG systems.
 
+> This project is partially managed by [Asha](https://github.com/pknull/asha), a Claude Code framework.
+
 ## Installation
 
 ```bash
