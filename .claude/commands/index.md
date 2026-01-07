@@ -1,1 +1,0 @@
-/home/pknull/Code/rpg-card/asha/commands/index.md
