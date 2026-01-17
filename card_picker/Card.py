@@ -6,6 +6,26 @@ class BaseCard:
     MAJOR_NUMBERS = []
 
     def __init__(self, suit, number):
+        if suit < 0:
+            raise ValueError(f"suit must be non-negative, got {suit}")
+        if number < 0:
+            raise ValueError(f"number must be non-negative, got {number}")
+        if suit == 0:
+            if number >= len(self.MAJOR_NUMBERS):
+                raise ValueError(
+                    f"number {number} out of range for major cards "
+                    f"(max {len(self.MAJOR_NUMBERS) - 1})"
+                )
+        else:
+            if suit >= len(self.SUITS):
+                raise ValueError(
+                    f"suit {suit} out of range (max {len(self.SUITS) - 1})"
+                )
+            if number >= len(self.MINOR_NUMBERS):
+                raise ValueError(
+                    f"number {number} out of range for minor cards "
+                    f"(max {len(self.MINOR_NUMBERS) - 1})"
+                )
         self.suit = suit
         self.number = number
 
@@ -64,6 +84,7 @@ class TarotCard(BaseCard):
         "Wheel of Fortune",
         "Strength",
         "The Hanged Man",
+        "Death",
         "Temperance",
         "The Devil",
         "The Tower",
@@ -184,4 +205,9 @@ class UnoCard(BaseCard):
     ]
 
     def string_for_suit(self):
-        return f"{self.SUITS[self.suit]} " if self.suit > 0 else ""
+        return self.SUITS[self.suit] if self.suit > 0 else ""
+
+    def name(self):
+        if self.suit > 0:
+            return f"{self.string_for_suit()} {self.string_for_number()}"
+        return self.string_for_number()
