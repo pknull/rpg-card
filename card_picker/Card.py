@@ -1,3 +1,29 @@
+from collections.abc import Mapping
+from fractions import Fraction
+from numbers import Rational
+from uuid import uuid4
+
+
+def validate_value_map(value_map):
+    """Copy and validate exact rank or (suit, rank) overrides."""
+    if value_map is None:
+        return {}
+    if not isinstance(value_map, Mapping):
+        raise TypeError("value_map must be a mapping")
+    result = {}
+    for key, value in value_map.items():
+        parts = key if isinstance(key, tuple) else (key,)
+        if (isinstance(key, tuple) and len(key) != 2) or any(
+            isinstance(part, bool) or not isinstance(part, int) or part < 0
+            for part in parts
+        ):
+            raise ValueError("value_map keys must be ranks or (suit, rank) pairs")
+        if isinstance(value, bool) or not isinstance(value, Rational):
+            raise TypeError("card values must be exact rational numbers")
+        result[key] = value if isinstance(value, int) else Fraction(value)
+    return result
+
+
 class BaseCard:
     """Base class used to define card systems."""
 
@@ -5,7 +31,9 @@ class BaseCard:
     MINOR_NUMBERS = []
     MAJOR_NUMBERS = []
 
-    def __init__(self, suit, number):
+    def __init__(self, suit, number, *, value_map=None):
+        if any(isinstance(v, bool) or not isinstance(v, int) for v in (suit, number)):
+            raise TypeError("suit and number must be integers")
         if suit < 0:
             raise ValueError(f"suit must be non-negative, got {suit}")
         if number < 0:
@@ -28,6 +56,32 @@ class BaseCard:
                 )
         self.suit = suit
         self.number = number
+        mapping = validate_value_map(value_map)
+        self.value = mapping.get((suit, number), mapping.get(number, self._default_value()))
+        self.orientation = "upright"
+        self._owner = None
+        self._hand = None
+        self._card_id = uuid4().hex
+
+    @property
+    def card_id(self):
+        """Stable physical-card identity for storage and later commands."""
+        return self._card_id
+
+    @property
+    def rank_index(self):
+        return self.number
+
+    @property
+    def colour(self):
+        return None
+
+    @property
+    def arcana(self):
+        return None
+
+    def _default_value(self):
+        return self.number + 1 if self.suit else 0
 
     def string_for_suit(self):
         return f" of {self.SUITS[self.suit]}" if self.suit > 0 else ""
@@ -51,6 +105,13 @@ class BaseCard:
 
 
 class TarotCard(BaseCard):
+    @property
+    def arcana(self):
+        return "minor" if self.suit else "major"
+
+    def _default_value(self):
+        return self.number + 1 if self.suit else self.number
+
     SUITS = ["", "Swords", "Staves", "Pentacles", "Cups"]
 
     MINOR_NUMBERS = [
@@ -97,6 +158,13 @@ class TarotCard(BaseCard):
 
 
 class ShadowCard(BaseCard):
+    @property
+    def arcana(self):
+        return "minor" if self.suit else "major"
+
+    def _default_value(self):
+        return self.number + 1 if self.suit else self.number
+
     SUITS = ["", "Blades", "Batons", "Coins", "Cups"]
 
     MINOR_NUMBERS = [
@@ -143,6 +211,12 @@ class ShadowCard(BaseCard):
 
 
 class StandardCard(BaseCard):
+    @property
+    def colour(self):
+        if not self.suit:
+            return None
+        return "red" if self.suit in (1, 3) else "black"
+
     SUITS = ["", "Hearts", "Spades", "Diamonds", "Clubs"]
 
     MINOR_NUMBERS = [
@@ -165,6 +239,9 @@ class StandardCard(BaseCard):
 
 
 class UnoCard(BaseCard):
+
+    def _default_value(self):
+        return (self.number - 4) % 9 + 1 if self.suit and self.number >= 4 else 0
 
     SUITS = ["", "Red", "Green", "Blue", "Yellow"]
 

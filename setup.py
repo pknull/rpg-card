@@ -5,7 +5,7 @@ except ImportError:
 
 setup(
     name="card_picker",
-    version="0.2",
+    version="0.3.0",
     description="Card dealing system for use in RPG bots",
     author="Louis Grenzebach",
     author_email="louis.grenzebach@gmail.com",
