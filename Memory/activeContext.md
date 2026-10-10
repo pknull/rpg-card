@@ -5,7 +5,9 @@ without game rules, storage backends or runtime probability dependencies.
 
 # State
 
-Verified 2026-10-09. Base HEAD a3f2413; v0.3.0 implementation is uncommitted.
+Verified 2026-10-10. Release commit 1113d95 and annotated tag v0.3.0 were
+pushed to github.com/pknull/rpg-card with Keeper authorization. Remote peeled
+tag verified at 1113d9569c8fb1af28e28ee4a0b5da0496fab3dd.
 Approved requirements are implemented: structured attributes, deck builders,
 orientation, seeding, physical-card ownership, hands and Fraction odds. Legacy
 deal() names/behaviour and original tests remain unchanged.
@@ -22,12 +24,13 @@ fixture and a fresh-process JSON continuation test. Correctness/input-validation
 reviews passed after fix reviews. Eight README examples and an isolated offline
 wheel smoke pass; no runtime dependencies. Tests use .venv Python; wheel build
 uses system python3 because .venv lacks setuptools. Deployed bots were not run.
-No commit, push or tag was performed. This remains an ongoing project Room.
+Package metadata and __version__ both declare 0.3.0. No bot dependency pins or
+deployments were changed. This remains an ongoing project Room.
 
 # Next
 
-- Keeper local review of the uncommitted v0.3.0 implementation and persistence API.
-- Commit, push or tag only on separate Keeper direction.
+- Consumer dependency updates and persistent-game integration belong to their
+  respective projects and require separate direction.
 
 # Blockers
 
