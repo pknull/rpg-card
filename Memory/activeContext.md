@@ -27,6 +27,12 @@ uses system python3 because .venv lacks setuptools. Deployed bots were not run.
 Package metadata and __version__ both declare 0.3.0. No bot dependency pins or
 deployments were changed. This remains an ongoing project Room.
 
+Save checkpoint reverified all 300 tests and remote master at ccd434e (the
+release-publication Memory commit). Existing bots need no changes for their
+current functionality: pk.asha still pins ceace06 and uses the legacy deal API;
+pk.zalgo has no rpg-card requirement. New features require deliberate consumer
+integration, with caller-owned storage and atomic updates for persistent games.
+
 # Next
 
 - Consumer dependency updates and persistent-game integration belong to their
